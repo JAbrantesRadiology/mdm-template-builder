@@ -85,6 +85,15 @@
             gap: 8px;
         }
 
+        .section h3 {
+            margin: 15px 0 10px 0;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .section-icon {
             font-size: 18px;
         }
@@ -186,8 +195,12 @@
         .radio-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .checkbox-group-3 {
+            grid-template-columns: 1fr 1fr 1fr;
         }
 
         .checkbox-item {
@@ -200,6 +213,8 @@
         input[type="radio"] {
             cursor: pointer;
             accent-color: var(--color-primary);
+            width: 16px;
+            height: 16px;
         }
 
         .click-zone {
@@ -313,15 +328,37 @@
             margin-bottom: 16px;
         }
 
+        .guideline-ref {
+            background: rgba(168, 75, 47, 0.08);
+            border-left: 4px solid var(--color-warning);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
         }
 
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
         @media (max-width: 768px) {
-            .grid-3 {
-                grid-template-columns: 1fr;
+            .grid-3, .grid-4 {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -374,6 +411,43 @@
         .status-ready {
             background: rgba(33, 128, 141, 0.12);
             color: var(--color-success);
+        }
+
+        .finding-status {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .finding-status select {
+            width: auto;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .finding-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .finding-row:last-child {
+            border-bottom: none;
+        }
+
+        .finding-label {
+            font-size: 13px;
+            flex: 1;
+        }
+
+        .section-radiology {
+            border: 2px solid var(--color-primary);
+        }
+
+        .section-radiology h2 {
+            color: var(--color-primary);
         }
     </style>
 </head>
@@ -488,89 +562,6 @@
                     </div>
                 </div>
 
-                <!-- Localização de Achados -->
-                <div class="section" style="margin-top: 20px;">
-                    <h2><span class="section-icon">🎯</span>Localização de Achados</h2>
-                    <label>Clique nas zonas afetadas:</label>
-                    <div style="margin-top: 10px;">
-                        <div class="click-zone" onclick="toggleZone(this, 'Ápice D')">Ápice D</div>
-                        <div class="click-zone" onclick="toggleZone(this, 'Ápice E')">Ápice E</div><br>
-                        <div class="click-zone" onclick="toggleZone(this, 'Lobo Sup D')">Lobo Sup D</div>
-                        <div class="click-zone" onclick="toggleZone(this, 'Lobo Sup E')">Lobo Sup E</div><br>
-                        <div class="click-zone" onclick="toggleZone(this, 'Lobo Med D')">Lobo Med D</div>
-                        <div class="click-zone" onclick="toggleZone(this, 'Lobo Inf E')">Lobo Inf E</div><br>
-                        <div class="click-zone" onclick="toggleZone(this, 'Lobo Inf D')">Lobo Inf D</div>
-                        <div class="click-zone" onclick="toggleZone(this, 'Lobo Inf E')">Lobo Inf E</div><br>
-                        <div class="click-zone" onclick="toggleZone(this, 'Base D')">Base D</div>
-                        <div class="click-zone" onclick="toggleZone(this, 'Base E')">Base E</div><br>
-                        <div class="click-zone" onclick="toggleZone(this, 'Difuso')" style="background: rgba(168, 75, 47, 0.1); border-color: var(--color-warning);">Difuso (bilateral)</div>
-                    </div>
-                    <div id="selectedZones" style="margin-top: 10px; padding: 10px; background: var(--color-bg); border-radius: 4px; min-height: 30px; font-size: 12px; color: #626c71;">
-                        Nenhuma zona selecionada
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECÇÃO DIREITA -->
-            <div>
-                <!-- HRCT Padrão -->
-                <div class="section">
-                    <h2><span class="section-icon">🖼️</span>Padrão HRCT</h2>
-                    <div class="form-group">
-                        <label>Padrão Reconhecido</label>
-                        <select id="hrctPattern" onchange="updateForm()">
-                            <option value="">Selecione padrão</option>
-                            <option value="UIP">UIP (Usual Interstitial Pneumonia)</option>
-                            <option value="Provável UIP">Provável UIP</option>
-                            <option value="NSIP">NSIP (Non-Specific Interstitial Pneumonia)</option>
-                            <option value="OP">OP (Organizing Pneumonia)</option>
-                            <option value="Sarcoidose">Sarcoidose</option>
-                            <option value="HP Aguda">HP Aguda (Hipersensibilidade)</option>
-                            <option value="HP Crónica">HP Crónica/Fibrante</option>
-                            <option value="Indeterminado">Indeterminado para UIP</option>
-                            <option value="Inespecífico">Inespecífico (não encaixa em padrão)</option>
-                            <option value="Normal">Normal</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Extensão da Doença (%)</label>
-                        <input type="number" id="diseaseExtent" placeholder="Ex: 30" min="0" max="100">
-                    </div>
-                    <div class="form-group">
-                        <label>Achados Específicos</label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="finding_honeycombing" value="Honeycombing" onchange="updateForm()">
-                                <label for="finding_honeycombing" style="margin: 0; cursor: pointer;">Honeycombing</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="finding_traction" value="Traction Bronq." onchange="updateForm()">
-                                <label for="finding_traction" style="margin: 0; cursor: pointer;">Traction Bronq.</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="finding_ggo" value="GGO" onchange="updateForm()">
-                                <label for="finding_ggo" style="margin: 0; cursor: pointer;">GGO</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="finding_consolidation" value="Consolidação" onchange="updateForm()">
-                                <label for="finding_consolidation" style="margin: 0; cursor: pointer;">Consolidação</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="finding_nodules" value="Nódulos" onchange="updateForm()">
-                                <label for="finding_nodules" style="margin: 0; cursor: pointer;">Nódulos</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="finding_lymph" value="Linfadenopatia" onchange="updateForm()">
-                                <label for="finding_lymph" style="margin: 0; cursor: pointer;">Linfadenopatia</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Comentário HRCT</label>
-                        <textarea id="hrctComment" placeholder="Observações adicionais sobre a imagem..."></textarea>
-                    </div>
-                </div>
-
                 <!-- Provas Funcionais -->
                 <div class="section" style="margin-top: 20px;">
                     <h2><span class="section-icon">📊</span>Provas Funcionais (PFT)</h2>
@@ -652,6 +643,280 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SECÇÃO DIREITA - RADIOLOGIA -->
+            <div>
+                <!-- HRCT - Classificação Padrão (ATS/ERS 2018) -->
+                <div class="section section-radiology">
+                    <h2><span class="section-icon">🩻</span>HRCT - Avaliação Radiológica</h2>
+                    <div class="guideline-ref">
+                        📚 Baseado em: ATS/ERS/JRS/ALAT 2018 Guidelines & Fleischner Society
+                    </div>
+
+                    <!-- Study Quality -->
+                    <h3>Qualidade do Estudo</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Data do Exame</label>
+                            <input type="date" id="hrctDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Qualidade Técnica</label>
+                            <select id="hrctQuality">
+                                <option value="">Selecione</option>
+                                <option value="Adequada">Adequada</option>
+                                <option value="Inspiração subótima">Inspiração subótima</option>
+                                <option value="Artefactos de movimento">Artefactos de movimento</option>
+                                <option value="Limitada mas diagnóstica">Limitada mas diagnóstica</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Imagens em Expiração</label>
+                            <select id="hrctExpiratory">
+                                <option value="">Selecione</option>
+                                <option value="Sim - normal">Sim - normal</option>
+                                <option value="Sim - air trapping">Sim - air trapping presente</option>
+                                <option value="Não realizado">Não realizado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Comparação com Prévio</label>
+                            <select id="hrctComparison">
+                                <option value="">Selecione</option>
+                                <option value="Sem prévio">Sem exame prévio</option>
+                                <option value="Estável">Estável vs prévio</option>
+                                <option value="Progressão">Progressão</option>
+                                <option value="Melhoria">Melhoria</option>
+                                <option value="Novos achados">Novos achados</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="priorDateGroup" style="display: none;">
+                        <label>Data do Exame Prévio</label>
+                        <input type="date" id="hrctPriorDate">
+                    </div>
+
+                    <!-- UIP Pattern Classification -->
+                    <h3>Classificação Padrão UIP (ATS/ERS 2018)</h3>
+                    <div class="info-box">
+                        Classificação obrigatória de 4 níveis para contexto clínico de suspeita de FPI
+                    </div>
+                    <div class="form-group">
+                        <label>Classificação UIP em HRCT</label>
+                        <select id="uipClassification" onchange="updateUIPHelp()">
+                            <option value="">Selecione classificação</option>
+                            <option value="UIP Típico">UIP Típico (Definite UIP)</option>
+                            <option value="UIP Provável">UIP Provável (Probable UIP)</option>
+                            <option value="Indeterminado para UIP">Indeterminado para UIP</option>
+                            <option value="Diagnóstico Alternativo">Diagnóstico Alternativo (features suggesting specific diagnosis)</option>
+                            <option value="Não aplicável">Não aplicável (contexto não-FPI)</option>
+                        </select>
+                    </div>
+                    <div id="uipHelpText" class="info-box" style="display: none; font-size: 12px;"></div>
+
+                    <!-- Primary Pattern (for non-UIP or alternative) -->
+                    <h3>Padrão Primário Reconhecido</h3>
+                    <div class="form-group">
+                        <label>Padrão Imagiológico Principal</label>
+                        <select id="hrctPattern" onchange="updateForm()">
+                            <option value="">Selecione padrão</option>
+                            <option value="UIP">UIP (Usual Interstitial Pneumonia)</option>
+                            <option value="NSIP">NSIP (Non-Specific Interstitial Pneumonia)</option>
+                            <option value="OP">OP (Organizing Pneumonia)</option>
+                            <option value="DAD">DAD (Diffuse Alveolar Damage)</option>
+                            <option value="HP">HP (Hypersensitivity Pneumonitis)</option>
+                            <option value="Sarcoidose">Sarcoidose</option>
+                            <option value="LIP">LIP (Lymphoid Interstitial Pneumonia)</option>
+                            <option value="PPFE">PPFE (Pleuroparenchymal Fibroelastosis)</option>
+                            <option value="Pneumoconiose">Pneumoconiose</option>
+                            <option value="Indeterminado">Padrão Indeterminado</option>
+                            <option value="Normal">Normal / Sem alterações ILD</option>
+                        </select>
+                    </div>
+
+                    <!-- Key HRCT Findings -->
+                    <h3>Achados-Chave HRCT</h3>
+                    
+                    <div class="form-group">
+                        <label><strong>Achados de Fibrose</strong></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_honeycombing" onchange="updateForm()">
+                                <label for="finding_honeycombing" style="margin: 0; cursor: pointer;">Honeycombing</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_traction_be" onchange="updateForm()">
+                                <label for="finding_traction_be" style="margin: 0; cursor: pointer;">Traction bronchiectasis</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_traction_biol" onchange="updateForm()">
+                                <label for="finding_traction_biol" style="margin: 0; cursor: pointer;">Traction bronchiolectasis</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_reticulation" onchange="updateForm()">
+                                <label for="finding_reticulation" style="margin: 0; cursor: pointer;">Reticulation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_archit_dist" onchange="updateForm()">
+                                <label for="finding_archit_dist" style="margin: 0; cursor: pointer;">Architectural distortion</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_volume_loss" onchange="updateForm()">
+                                <label for="finding_volume_loss" style="margin: 0; cursor: pointer;">Volume loss</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Opacidades Parenquimatosas</strong></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_ggo" onchange="updateForm()">
+                                <label for="finding_ggo" style="margin: 0; cursor: pointer;">Ground-glass opacity (GGO)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_consolidation" onchange="updateForm()">
+                                <label for="finding_consolidation" style="margin: 0; cursor: pointer;">Consolidation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_mosaic" onchange="updateForm()">
+                                <label for="finding_mosaic" style="margin: 0; cursor: pointer;">Mosaic attenuation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_air_trapping" onchange="updateForm()">
+                                <label for="finding_air_trapping" style="margin: 0; cursor: pointer;">Air trapping</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Nódulos</strong></label>
+                        <div class="checkbox-group checkbox-group-3">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_nodules_centrilobular" onchange="updateForm()">
+                                <label for="finding_nodules_centrilobular" style="margin: 0; cursor: pointer;">Centrilobulares</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_nodules_perilymphatic" onchange="updateForm()">
+                                <label for="finding_nodules_perilymphatic" style="margin: 0; cursor: pointer;">Perilinfáticos</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_nodules_random" onchange="updateForm()">
+                                <label for="finding_nodules_random" style="margin: 0; cursor: pointer;">Aleatórios</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Outros Achados</strong></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_cysts" onchange="updateForm()">
+                                <label for="finding_cysts" style="margin: 0; cursor: pointer;">Cysts (non-honeycomb)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_septal_thick" onchange="updateForm()">
+                                <label for="finding_septal_thick" style="margin: 0; cursor: pointer;">Septal thickening</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_lymphadenopathy" onchange="updateForm()">
+                                <label for="finding_lymphadenopathy" style="margin: 0; cursor: pointer;">Mediastinal lymphadenopathy</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_pleural" onchange="updateForm()">
+                                <label for="finding_pleural" style="margin: 0; cursor: pointer;">Pleural abnormality</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_emphysema" onchange="updateForm()">
+                                <label for="finding_emphysema" style="margin: 0; cursor: pointer;">Emphysema</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="finding_pulm_htn" onchange="updateForm()">
+                                <label for="finding_pulm_htn" style="margin: 0; cursor: pointer;">Signs of pulm. hypertension</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Distribution -->
+                    <h3>Distribuição</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Distribuição Axial</label>
+                            <select id="distAxial">
+                                <option value="">Selecione</option>
+                                <option value="Periférica/subpleural">Periférica / Subpleural</option>
+                                <option value="Peribroncovascular">Peribroncovascular</option>
+                                <option value="Central">Central</option>
+                                <option value="Difusa">Difusa</option>
+                                <option value="Aleatória">Aleatória</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Distribuição Craniocaudal</label>
+                            <select id="distCraniocaudal">
+                                <option value="">Selecione</option>
+                                <option value="Basal predominante">Basal predominante</option>
+                                <option value="Apical predominante">Apical predominante</option>
+                                <option value="Difusa">Difusa / Sem gradiente</option>
+                                <option value="Médio predominante">Zonas médias predominantes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Simetria</label>
+                            <select id="distSymmetry">
+                                <option value="">Selecione</option>
+                                <option value="Simétrica">Simétrica</option>
+                                <option value="Assimétrica">Assimétrica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Extensão da Doença (%)</label>
+                            <input type="number" id="diseaseExtent" placeholder="Ex: 30" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <!-- Anatomical Zones -->
+                    <h3>Zonas Afectadas</h3>
+                    <label style="font-size: 12px; color: #666;">Clique nas zonas com alterações:</label>
+                    <div style="margin-top: 10px; text-align: center;">
+                        <div class="click-zone" onclick="toggleZone(this, 'Ápice D')">Ápice D</div>
+                        <div class="click-zone" onclick="toggleZone(this, 'Ápice E')">Ápice E</div><br>
+                        <div class="click-zone" onclick="toggleZone(this, 'LSup D')">LSup D</div>
+                        <div class="click-zone" onclick="toggleZone(this, 'LSup E')">LSup E</div><br>
+                        <div class="click-zone" onclick="toggleZone(this, 'LMed D')">LMed D</div>
+                        <div class="click-zone" onclick="toggleZone(this, 'Língula')">Língula</div><br>
+                        <div class="click-zone" onclick="toggleZone(this, 'LInf D')">LInf D</div>
+                        <div class="click-zone" onclick="toggleZone(this, 'LInf E')">LInf E</div><br>
+                        <div class="click-zone" onclick="toggleZone(this, 'Base D')">Base D</div>
+                        <div class="click-zone" onclick="toggleZone(this, 'Base E')">Base E</div><br>
+                        <div class="click-zone" onclick="toggleZone(this, 'Difuso')" style="background: rgba(168, 75, 47, 0.1); border-color: var(--color-warning);">Difuso</div>
+                    </div>
+                    <div id="selectedZones" style="margin-top: 10px; padding: 10px; background: var(--color-bg); border-radius: 4px; min-height: 30px; font-size: 12px; color: #626c71; text-align: center;">
+                        Nenhuma zona selecionada
+                    </div>
+
+                    <!-- Radiologist Impression -->
+                    <h3>Impressão do Radiologista</h3>
+                    <div class="form-group">
+                        <label>Nível de Confiança no Padrão</label>
+                        <select id="radioConfidence">
+                            <option value="">Selecione</option>
+                            <option value="Alta (>90%)">Alta (>90%)</option>
+                            <option value="Moderada (70-90%)">Moderada (70-90%)</option>
+                            <option value="Baixa (50-70%)">Baixa (50-70%)</option>
+                            <option value="Incerta (<50%)">Incerta (<50%)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Comentário Radiológico</label>
+                        <textarea id="hrctComment" placeholder="Observações adicionais, diagnósticos diferenciais, recomendações de follow-up imagiológico..."></textarea>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- CONSENSO DIAGNÓSTICO -->
@@ -662,10 +927,10 @@
             </div>
             <div class="form-group">
                 <label>Diagnóstico Principal (1ª Escolha)</label>
-                <input type="text" id="diagnosis1" placeholder="Ex: Sarcoidose Pulmonar Estágio II">
+                <input type="text" id="diagnosis1" placeholder="Ex: Fibrose Pulmonar Idiopática">
             </div>
             <div class="form-group">
-                <label>Nível de Confiança</label>
+                <label>Nível de Confiança Diagnóstica MDM</label>
                 <select id="confidenceLevel" onchange="updateForm()">
                     <option value="">Selecione</option>
                     <option value="Confident (≥90%)">Confiante (≥90%)</option>
@@ -674,18 +939,14 @@
                     <option value="Unclassifiable (<50%)">Inclassificável (<50%)</option>
                 </select>
             </div>
-            <div class="grid-3">
+            <div class="grid-2">
                 <div class="form-group">
                     <label>Diagnóstico Diferencial 2</label>
-                    <input type="text" id="diagnosis2" placeholder="Ex: HP Crónica">
+                    <input type="text" id="diagnosis2" placeholder="Ex: HP Crónica Fibrosante">
                 </div>
                 <div class="form-group">
                     <label>Diagnóstico Diferencial 3</label>
                     <input type="text" id="diagnosis3" placeholder="Ex: CTD-ILD">
-                </div>
-                <div class="form-group">
-                    <label>Probabilidade 3ª</label>
-                    <input type="number" id="diagnosis3_prob" placeholder="%" min="0" max="100">
                 </div>
             </div>
             <div class="form-group">
@@ -694,11 +955,11 @@
             </div>
             <div class="form-group">
                 <label>Recomendações Clínicas</label>
-                <textarea id="recommendations" placeholder="Ex: Terapia antifibrótica com Nintedanib, Follow-up PFT 3 meses, Rastreio de complicações..."></textarea>
+                <textarea id="recommendations" placeholder="Ex: Terapia antifibrótica com Nintedanib, Follow-up PFT 3 meses..."></textarea>
             </div>
             <div class="form-group">
                 <label>Próximos Passos / Investigação Adicional</label>
-                <textarea id="nextSteps" placeholder="Ex: Biópsia via crióbiópsy se persistir incerteza diagnóstica..."></textarea>
+                <textarea id="nextSteps" placeholder="Ex: Biópsia via criobiópsia se persistir incerteza diagnóstica..."></textarea>
             </div>
         </div>
 
@@ -714,7 +975,7 @@
         </div>
 
         <div style="text-align: center; padding: 20px; color: #626c71; font-size: 12px;">
-            <p>© 2026 MDM Template Builder | Gestão de Doenças Intersticiais do Pulmão</p>
+            <p>© 2026 MDM Template Builder | Doenças Intersticiais do Pulmão | ATS/ERS/JRS/ALAT Guidelines</p>
         </div>
     </div>
 
@@ -728,20 +989,32 @@
             field.addEventListener('change', () => saveToLocalStorage());
         });
 
+        // Handle checkboxes separately
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => saveToLocalStorage());
+        });
+
         // Load from localStorage on page load
         window.addEventListener('load', () => {
             loadFromLocalStorage();
+            updateUIPHelp();
+        });
+
+        // Show/hide prior date field
+        document.getElementById('hrctComparison').addEventListener('change', function() {
+            const priorGroup = document.getElementById('priorDateGroup');
+            priorGroup.style.display = (this.value && this.value !== 'Sem prévio') ? 'block' : 'none';
         });
 
         function saveToLocalStorage() {
             const formData = {};
             formFields.forEach(field => {
-                if (field.type === 'checkbox') {
-                    formData[field.id] = field.checked;
-                } else {
-                    formData[field.id] = field.value;
-                }
+                formData[field.id] = field.value;
             });
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                formData[cb.id] = cb.checked;
+            });
+            formData.selectedZones = Array.from(selectedZones);
             localStorage.setItem('mdmFormData', JSON.stringify(formData));
         }
 
@@ -750,12 +1023,30 @@
             if (saved) {
                 const formData = JSON.parse(saved);
                 formFields.forEach(field => {
-                    if (field.type === 'checkbox') {
-                        field.checked = formData[field.id] || false;
-                    } else {
-                        field.value = formData[field.id] || '';
+                    if (formData[field.id] !== undefined) {
+                        field.value = formData[field.id];
                     }
                 });
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = formData[cb.id] || false;
+                });
+                if (formData.selectedZones) {
+                    formData.selectedZones.forEach(zone => {
+                        selectedZones.add(zone);
+                        document.querySelectorAll('.click-zone').forEach(el => {
+                            if (el.textContent.trim() === zone || 
+                                (zone === 'Difuso' && el.textContent.includes('Difuso'))) {
+                                el.classList.add('active');
+                            }
+                        });
+                    });
+                    updateSelectedZones();
+                }
+                // Trigger comparison field visibility
+                const hrctComparison = document.getElementById('hrctComparison');
+                if (hrctComparison.value && hrctComparison.value !== 'Sem prévio') {
+                    document.getElementById('priorDateGroup').style.display = 'block';
+                }
             }
         }
 
@@ -767,6 +1058,7 @@
                 selectedZones.delete(zoneName);
             }
             updateSelectedZones();
+            saveToLocalStorage();
         }
 
         function updateSelectedZones() {
@@ -778,8 +1070,73 @@
             }
         }
 
+        function updateUIPHelp() {
+            const classification = document.getElementById('uipClassification').value;
+            const helpDiv = document.getElementById('uipHelpText');
+            
+            const helpTexts = {
+                'UIP Típico': '<strong>Critérios UIP Típico:</strong> Honeycombing COM OU SEM traction bronchiectasis; Distribuição subpleural e basal predominante',
+                'UIP Provável': '<strong>Critérios UIP Provável:</strong> Traction bronchiectasis E reticulation COM distribuição subpleural/basal; SEM honeycombing; SEM achados inconsistentes',
+                'Indeterminado para UIP': '<strong>Indeterminado:</strong> Padrão fibrosante que não cumpre critérios de UIP típico/provável NEM sugere diagnóstico alternativo específico',
+                'Diagnóstico Alternativo': '<strong>Diagnóstico Alternativo:</strong> Achados sugerem diagnóstico específico (ex: HP, sarcoidose, NSIP, etc.) - especificar no padrão primário'
+            };
+
+            if (helpTexts[classification]) {
+                helpDiv.innerHTML = helpTexts[classification];
+                helpDiv.style.display = 'block';
+            } else {
+                helpDiv.style.display = 'none';
+            }
+        }
+
         function updateForm() {
             saveToLocalStorage();
+        }
+
+        function getCheckedFindings() {
+            const findings = [];
+            
+            // Fibrosis findings
+            if (document.getElementById('finding_honeycombing').checked) findings.push('Honeycombing');
+            if (document.getElementById('finding_traction_be').checked) findings.push('Traction bronchiectasis');
+            if (document.getElementById('finding_traction_biol').checked) findings.push('Traction bronchiolectasis');
+            if (document.getElementById('finding_reticulation').checked) findings.push('Reticulation');
+            if (document.getElementById('finding_archit_dist').checked) findings.push('Architectural distortion');
+            if (document.getElementById('finding_volume_loss').checked) findings.push('Volume loss');
+            
+            // Parenchymal
+            if (document.getElementById('finding_ggo').checked) findings.push('Ground-glass opacity');
+            if (document.getElementById('finding_consolidation').checked) findings.push('Consolidation');
+            if (document.getElementById('finding_mosaic').checked) findings.push('Mosaic attenuation');
+            if (document.getElementById('finding_air_trapping').checked) findings.push('Air trapping');
+            
+            // Nodules
+            const noduleTypes = [];
+            if (document.getElementById('finding_nodules_centrilobular').checked) noduleTypes.push('centrilobular');
+            if (document.getElementById('finding_nodules_perilymphatic').checked) noduleTypes.push('perilymphatic');
+            if (document.getElementById('finding_nodules_random').checked) noduleTypes.push('random');
+            if (noduleTypes.length > 0) findings.push('Nodules (' + noduleTypes.join(', ') + ')');
+            
+            // Others
+            if (document.getElementById('finding_cysts').checked) findings.push('Cysts (non-honeycomb)');
+            if (document.getElementById('finding_septal_thick').checked) findings.push('Septal thickening');
+            if (document.getElementById('finding_lymphadenopathy').checked) findings.push('Mediastinal lymphadenopathy');
+            if (document.getElementById('finding_pleural').checked) findings.push('Pleural abnormality');
+            if (document.getElementById('finding_emphysema').checked) findings.push('Emphysema');
+            if (document.getElementById('finding_pulm_htn').checked) findings.push('Signs of pulmonary hypertension');
+            
+            return findings.length > 0 ? findings.join(', ') : 'Nenhum achado selecionado';
+        }
+
+        function getCheckboxes(prefix) {
+            const checkboxes = document.querySelectorAll(`input[type="checkbox"][id^="${prefix}"]`);
+            return Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => {
+                    const label = document.querySelector(`label[for="${cb.id}"]`);
+                    return label ? label.textContent : cb.value;
+                })
+                .join(', ') || 'Não reportado';
         }
 
         function generateReport() {
@@ -791,19 +1148,22 @@
         }
 
         function buildReport() {
-            const getCheckboxes = (prefix) => {
-                const checkboxes = document.querySelectorAll(`input[type="checkbox"][id^="${prefix}"]`);
-                return Array.from(checkboxes)
-                    .filter(cb => cb.checked)
-                    .map(cb => cb.value)
-                    .join(', ') || 'Não reportado';
-            };
-
             const symptoms = getCheckboxes('symptom');
-            const findings = getCheckboxes('finding');
             const labMarkers = getCheckboxes('lab');
-
+            const hrctFindings = getCheckedFindings();
             const zones = selectedZones.size > 0 ? Array.from(selectedZones).join(', ') : 'Não especificado';
+
+            // Distribution
+            const distAxial = document.getElementById('distAxial').value || 'N/A';
+            const distCC = document.getElementById('distCraniocaudal').value || 'N/A';
+            const distSym = document.getElementById('distSymmetry').value || 'N/A';
+
+            // Comparison text
+            let comparisonText = document.getElementById('hrctComparison').value || 'Não especificado';
+            const priorDate = document.getElementById('hrctPriorDate').value;
+            if (priorDate && comparisonText !== 'Sem prévio') {
+                comparisonText += ` (vs ${priorDate})`;
+            }
 
             let report = `═══════════════════════════════════════════════════════════════
                 MDM - DOENÇAS INTERSTICIAIS DO PULMÃO
@@ -833,17 +1193,31 @@ ${document.getElementById('medicationHistory').value || 'Sem medicações releva
 Comorbilidades:
 ${document.getElementById('comorbidities').value || 'Sem comorbilidades documentadas'}
 
-ACHADOS CLÍNICO-IMAGIOLÓGICOS
+AVALIAÇÃO RADIOLÓGICA - HRCT
 ─────────────────────────────────────────────────────────────
+Data do Exame: ${document.getElementById('hrctDate').value || 'N/A'}
+Qualidade Técnica: ${document.getElementById('hrctQuality').value || 'N/A'}
+Imagens em Expiração: ${document.getElementById('hrctExpiratory').value || 'N/A'}
+Comparação: ${comparisonText}
+
+CLASSIFICAÇÃO UIP (ATS/ERS 2018): ${document.getElementById('uipClassification').value || 'Não classificado'}
+Padrão Imagiológico Principal: ${document.getElementById('hrctPattern').value || 'Não especificado'}
+
+Achados HRCT:
+${hrctFindings}
+
+Distribuição:
+  • Axial: ${distAxial}
+  • Craniocaudal: ${distCC}
+  • Simetria: ${distSym}
+  • Extensão: ${document.getElementById('diseaseExtent').value || 'N/A'}%
+
 Zonas Pulmonares Afetadas: ${zones}
 
-Padrão HRCT: ${document.getElementById('hrctPattern').value || 'Não especificado'}
-Extensão da Doença: ${document.getElementById('diseaseExtent').value || 'N/A'}%
+Confiança do Radiologista: ${document.getElementById('radioConfidence').value || 'N/A'}
 
-Achados Específicos: ${findings}
-
-Comentário HRCT:
-${document.getElementById('hrctComment').value || 'Nenhum comentário adicional'}
+Comentário Radiológico:
+${document.getElementById('hrctComment').value || 'Sem comentário adicional'}
 
 PROVAS FUNCIONAIS RESPIRATÓRIAS
 ─────────────────────────────────────────────────────────────
@@ -866,7 +1240,7 @@ ${document.getElementById('biopsy').value || 'Não realizada'}
 CONSENSO DIAGNÓSTICO MULTIDISCIPLINAR
 ─────────────────────────────────────────────────────────────
 Diagnóstico Principal: ${document.getElementById('diagnosis1').value || 'A definir'}
-Nível de Confiança: ${document.getElementById('confidenceLevel').value || 'A definir'}
+Nível de Confiança MDM: ${document.getElementById('confidenceLevel').value || 'A definir'}
 
 Diagnósticos Diferenciais:
   • ${document.getElementById('diagnosis2').value || 'N/A'}
@@ -885,6 +1259,7 @@ ${document.getElementById('nextSteps').value || 'A definir conforme evolução c
 
 ═══════════════════════════════════════════════════════════════
 Relatório gerado em: ${new Date().toLocaleString('pt-PT')}
+Classificação baseada em: ATS/ERS/JRS/ALAT Clinical Practice Guideline 2018
 ═══════════════════════════════════════════════════════════════`;
 
             return report;
@@ -903,7 +1278,6 @@ Relatório gerado em: ${new Date().toLocaleString('pt-PT')}
                 showCopyFeedback('✓ Copiado para clipboard!');
             } catch (err) {
                 console.error('Erro ao copiar:', err);
-                // Fallback para navegadores antigos
                 const textarea = document.createElement('textarea');
                 textarea.value = reportText;
                 document.body.appendChild(textarea);
@@ -930,20 +1304,20 @@ Relatório gerado em: ${new Date().toLocaleString('pt-PT')}
                 document.querySelectorAll('input[type="checkbox"]').forEach(field => {
                     field.checked = false;
                 });
+                document.querySelectorAll('.click-zone').forEach(el => {
+                    el.classList.remove('active');
+                });
                 selectedZones.clear();
                 updateSelectedZones();
                 document.getElementById('reportOutput').innerHTML = '<span class="report-empty">O relatório aparecerá aqui após clicar em "Gerar Relatório"</span>';
                 document.getElementById('statusBadge').className = 'status-badge status-draft';
                 document.getElementById('statusBadge').textContent = 'Rascunho';
+                document.getElementById('priorDateGroup').style.display = 'none';
+                document.getElementById('uipHelpText').style.display = 'none';
                 localStorage.removeItem('mdmFormData');
                 showCopyFeedback('✓ Formulário limpo!');
             }
         }
-
-        // Update form on load
-        window.addEventListener('load', () => {
-            updateForm();
-        });
     </script>
 </body>
 </html>
