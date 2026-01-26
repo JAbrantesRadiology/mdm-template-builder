@@ -466,6 +466,18 @@
             <span class="status-badge status-draft" id="statusBadge">Rascunho</span>
         </div>
 
+        <!-- Equipa MDM - Persistente -->
+        <div class="section" style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(33, 128, 141, 0.05), rgba(33, 128, 141, 0.1));">
+            <h2><span class="section-icon">👥</span>Equipa MDM</h2>
+            <div class="info-box" style="font-size: 11px; margin-bottom: 10px;">
+                Este campo persiste entre sessões. Edite diretamente para adicionar/remover nomes.
+            </div>
+            <div class="form-group">
+                <label>Médicos Presentes</label>
+                <textarea id="mdmTeam" placeholder="Ex: Dr. João Silva (Pneumologia), Dra. Ana Santos (Radiologia), Dr. Pedro Costa (Patologia)..." style="min-height: 60px;" oninput="saveMDMTeam()"></textarea>
+            </div>
+        </div>
+
         <div class="main-grid">
             <!-- SECÇÃO ESQUERDA -->
             <div>
@@ -997,8 +1009,22 @@
         // Load from localStorage on page load
         window.addEventListener('load', () => {
             loadFromLocalStorage();
+            loadMDMTeam();
             updateUIPHelp();
         });
+
+        // MDM Team - separate persistent storage (survives form clear)
+        function saveMDMTeam() {
+            const team = document.getElementById('mdmTeam').value;
+            localStorage.setItem('mdmTeamPersistent', team);
+        }
+
+        function loadMDMTeam() {
+            const saved = localStorage.getItem('mdmTeamPersistent');
+            if (saved) {
+                document.getElementById('mdmTeam').value = saved;
+            }
+        }
 
         // Show/hide prior date field
         document.getElementById('hrctComparison').addEventListener('change', function() {
@@ -1165,10 +1191,16 @@
                 comparisonText += ` (vs ${priorDate})`;
             }
 
+            const mdmTeam = document.getElementById('mdmTeam').value || 'Não especificado';
+
             let report = `═══════════════════════════════════════════════════════════════
                 MDM - DOENÇAS INTERSTICIAIS DO PULMÃO
                 REUNIÃO MULTIDISCIPLINAR
 ═══════════════════════════════════════════════════════════════
+
+EQUIPA MDM PRESENTE
+─────────────────────────────────────────────────────────────
+${mdmTeam}
 
 DADOS DO PACIENTE
 ─────────────────────────────────────────────────────────────
