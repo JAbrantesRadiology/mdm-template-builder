@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MDM Template Builder - ILD</title>
+    <title>MDM Template Builder - ILD v3</title>
     <style>
         :root {
             --color-primary: #218089;
@@ -449,12 +449,109 @@
         .section-radiology h2 {
             color: var(--color-primary);
         }
+
+        /* Collapsible/Accordion Styles */
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, rgba(168, 77, 47, 0.08), rgba(168, 77, 47, 0.15));
+            border: 1px solid rgba(168, 77, 47, 0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+        }
+
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, rgba(168, 77, 47, 0.12), rgba(168, 77, 47, 0.2));
+        }
+
+        .collapsible-header h3 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-warning);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .collapsible-icon {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-header.active .collapsible-icon {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: rgba(168, 77, 47, 0.03);
+            border: 1px solid rgba(168, 77, 47, 0.2);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .collapsible-content.active {
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .collapsible-inner {
+            padding: 16px;
+        }
+
+        .ana-titer-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .ana-titer-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            background: var(--color-bg);
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .ana-titer-btn:hover {
+            border-color: var(--color-warning);
+            background: rgba(168, 77, 47, 0.05);
+        }
+
+        .ana-titer-btn.active {
+            background: var(--color-warning);
+            color: white;
+            border-color: var(--color-warning);
+        }
+
+        .antibody-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        @media (min-width: 600px) {
+            .antibody-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📋 MDM Template Builder - ILD</h1>
+            <h1>📋 MDM Template Builder - ILD <span style="font-size: 14px; color: #626c71;">v3</span></h1>
             <p class="subtitle">Reunião Multidisciplinar de Doenças Intersticiais do Pulmão</p>
         </header>
 
@@ -464,6 +561,15 @@
             <button class="btn-secondary" onclick="clearForm()">Limpar Formulário</button>
             <div style="flex: 1;"></div>
             <span class="status-badge status-draft" id="statusBadge">Rascunho</span>
+        </div>
+
+        <!-- Médico Assistente - NEW IN V3 -->
+        <div class="section" style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(33, 128, 141, 0.03), rgba(33, 128, 141, 0.08));">
+            <h2><span class="section-icon">👨‍⚕️</span>Médico Assistente</h2>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Nome do Médico Assistente / Referenciador</label>
+                <input type="text" id="referringPhysician" placeholder="Ex: Dr. João Silva (Medicina Interna)">
+            </div>
         </div>
 
         <!-- Equipa MDM - Persistente -->
@@ -635,17 +741,107 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Serologias Autoimunes</label>
-                        <select id="serology">
-                            <option value="">Selecione</option>
-                            <option value="FAN negativo">FAN negativo</option>
-                            <option value="FAN positivo">FAN positivo</option>
-                            <option value="Anticorpos específicos">Anticorpos específicos</option>
-                            <option value="Factor Reumatoide positivo">Factor Reumatoide +</option>
-                        </select>
+
+                    <!-- COLLAPSIBLE: Estudo Imunológico - NEW IN V3 -->
+                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                        <h3><span>🔬</span> Estudo Imunológico (Clique para expandir)</h3>
+                        <span class="collapsible-icon">▼</span>
                     </div>
-                    <div class="form-group">
+                    <div class="collapsible-content" id="immunologyPanel">
+                        <div class="collapsible-inner">
+                            <!-- ANA Section -->
+                            <div class="form-group">
+                                <label><strong>ANA (Anticorpos anti-nucleares)</strong></label>
+                                <div style="margin-top: 8px;">
+                                    <label style="font-size: 12px; color: #666;">Título:</label>
+                                    <div class="ana-titer-group">
+                                        <button type="button" class="ana-titer-btn" onclick="selectAnaTiter(this, '<1/160')">&lt;1/160</button>
+                                        <button type="button" class="ana-titer-btn" onclick="selectAnaTiter(this, '1/160')">1/160</button>
+                                        <button type="button" class="ana-titer-btn" onclick="selectAnaTiter(this, '1/320')">1/320</button>
+                                        <button type="button" class="ana-titer-btn" onclick="selectAnaTiter(this, '1/640')">1/640</button>
+                                        <button type="button" class="ana-titer-btn" onclick="selectAnaTiter(this, '1/1280')">1/1280</button>
+                                    </div>
+                                    <input type="hidden" id="anaTiter" value="">
+                                </div>
+                                <div style="margin-top: 12px;">
+                                    <label style="font-size: 12px; color: #666;">Padrão (AC-1 a AC-28):</label>
+                                    <input type="text" id="anaPattern" placeholder="Ex: AC-4, AC-5" style="margin-top: 4px;">
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <!-- Specific Antibodies -->
+                            <div class="form-group">
+                                <label><strong>Anticorpos Específicos</strong></label>
+                                <div class="antibody-grid">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_fr" onchange="updateForm()">
+                                        <label for="ab_fr" style="margin: 0; cursor: pointer;">Fator reumatóide</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_accp" onchange="updateForm()">
+                                        <label for="ab_accp" style="margin: 0; cursor: pointer;">ACCP</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_dsdna" onchange="updateForm()">
+                                        <label for="ab_dsdna" style="margin: 0; cursor: pointer;">Anti-dsDNA</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_ssa" onchange="updateForm()">
+                                        <label for="ab_ssa" style="margin: 0; cursor: pointer;">Anti-SSa</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_ssb" onchange="updateForm()">
+                                        <label for="ab_ssb" style="margin: 0; cursor: pointer;">Anti-SSb</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_centromero" onchange="updateForm()">
+                                        <label for="ab_centromero" style="margin: 0; cursor: pointer;">Anti-centrómero</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_scl70" onchange="updateForm()">
+                                        <label for="ab_scl70" style="margin: 0; cursor: pointer;">Anti-Scl70/topoisomerase</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_rnp" onchange="updateForm()">
+                                        <label for="ab_rnp" style="margin: 0; cursor: pointer;">Anti-RNP</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_thto" onchange="updateForm()">
+                                        <label for="ab_thto" style="margin: 0; cursor: pointer;">Anti-Th/To</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_ro52" onchange="updateForm()">
+                                        <label for="ab_ro52" style="margin: 0; cursor: pointer;">Anti-Ro52</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_mda5" onchange="updateForm()">
+                                        <label for="ab_mda5" style="margin: 0; cursor: pointer;">Anti-MDA5</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_jo1" onchange="updateForm()">
+                                        <label for="ab_jo1" style="margin: 0; cursor: pointer;">Anti-Jo1</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_pr3" onchange="updateForm()">
+                                        <label for="ab_pr3" style="margin: 0; cursor: pointer;">Anti-PR3</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="ab_mpo" onchange="updateForm()">
+                                        <label for="ab_mpo" style="margin: 0; cursor: pointer;">Anti-MPO</label>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 12px;">
+                                    <label style="font-size: 12px; color: #666;">Outros anticorpos:</label>
+                                    <input type="text" id="abOther" placeholder="Ex: Anti-PM/Scl, Anti-Ku..." style="margin-top: 4px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Collapsible -->
+
+                    <div class="form-group" style="margin-top: 16px;">
                         <label>BAL (se realizado)</label>
                         <textarea id="bal" placeholder="Ex: Linfocitose 50%, CD4:CD8 ratio 2.1..."></textarea>
                     </div>
@@ -750,7 +946,7 @@
 
                     <!-- Key HRCT Findings -->
                     <h3>Achados-Chave HRCT</h3>
-                    
+
                     <div class="form-group">
                         <label><strong>Achados de Fibrose</strong></label>
                         <div class="checkbox-group">
@@ -987,7 +1183,7 @@
         </div>
 
         <div style="text-align: center; padding: 20px; color: #626c71; font-size: 12px;">
-            <p>© 2026 MDM Template Builder | Doenças Intersticiais do Pulmão | ATS/ERS/JRS/ALAT Guidelines</p>
+            <p>© 2026 MDM Template Builder v3 | Doenças Intersticiais do Pulmão | ATS/ERS/JRS/ALAT Guidelines</p>
         </div>
     </div>
 
@@ -1032,6 +1228,24 @@
             priorGroup.style.display = (this.value && this.value !== 'Sem prévio') ? 'block' : 'none';
         });
 
+        // Collapsible toggle function
+        function toggleCollapsible(header) {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            content.classList.toggle('active');
+        }
+
+        // ANA Titer selection
+        function selectAnaTiter(btn, value) {
+            // Remove active from all buttons
+            document.querySelectorAll('.ana-titer-btn').forEach(b => b.classList.remove('active'));
+            // Add active to clicked button
+            btn.classList.add('active');
+            // Set hidden input value
+            document.getElementById('anaTiter').value = value;
+            saveToLocalStorage();
+        }
+
         function saveToLocalStorage() {
             const formData = {};
             formFields.forEach(field => {
@@ -1040,12 +1254,14 @@
             document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
                 formData[cb.id] = cb.checked;
             });
+            // Save ANA titer separately
+            formData.anaTiter = document.getElementById('anaTiter').value;
             formData.selectedZones = Array.from(selectedZones);
-            localStorage.setItem('mdmFormData', JSON.stringify(formData));
+            localStorage.setItem('mdmFormDataV3', JSON.stringify(formData));
         }
 
         function loadFromLocalStorage() {
-            const saved = localStorage.getItem('mdmFormData');
+            const saved = localStorage.getItem('mdmFormDataV3');
             if (saved) {
                 const formData = JSON.parse(saved);
                 formFields.forEach(field => {
@@ -1056,11 +1272,21 @@
                 document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
                     cb.checked = formData[cb.id] || false;
                 });
+                // Restore ANA titer button state
+                if (formData.anaTiter) {
+                    document.getElementById('anaTiter').value = formData.anaTiter;
+                    document.querySelectorAll('.ana-titer-btn').forEach(btn => {
+                        if (btn.textContent === formData.anaTiter ||
+                            (formData.anaTiter === '<1/160' && btn.textContent === '<1/160')) {
+                            btn.classList.add('active');
+                        }
+                    });
+                }
                 if (formData.selectedZones) {
                     formData.selectedZones.forEach(zone => {
                         selectedZones.add(zone);
                         document.querySelectorAll('.click-zone').forEach(el => {
-                            if (el.textContent.trim() === zone || 
+                            if (el.textContent.trim() === zone ||
                                 (zone === 'Difuso' && el.textContent.includes('Difuso'))) {
                                 el.classList.add('active');
                             }
@@ -1099,7 +1325,7 @@
         function updateUIPHelp() {
             const classification = document.getElementById('uipClassification').value;
             const helpDiv = document.getElementById('uipHelpText');
-            
+
             const helpTexts = {
                 'UIP Típico': '<strong>Critérios UIP Típico:</strong> Honeycombing COM OU SEM traction bronchiectasis; Distribuição subpleural e basal predominante',
                 'UIP Provável': '<strong>Critérios UIP Provável:</strong> Traction bronchiectasis E reticulation COM distribuição subpleural/basal; SEM honeycombing; SEM achados inconsistentes',
@@ -1121,7 +1347,7 @@
 
         function getCheckedFindings() {
             const findings = [];
-            
+
             // Fibrosis findings
             if (document.getElementById('finding_honeycombing').checked) findings.push('Honeycombing');
             if (document.getElementById('finding_traction_be').checked) findings.push('Traction bronchiectasis');
@@ -1129,20 +1355,20 @@
             if (document.getElementById('finding_reticulation').checked) findings.push('Reticulation');
             if (document.getElementById('finding_archit_dist').checked) findings.push('Architectural distortion');
             if (document.getElementById('finding_volume_loss').checked) findings.push('Volume loss');
-            
+
             // Parenchymal
             if (document.getElementById('finding_ggo').checked) findings.push('Ground-glass opacity');
             if (document.getElementById('finding_consolidation').checked) findings.push('Consolidation');
             if (document.getElementById('finding_mosaic').checked) findings.push('Mosaic attenuation');
             if (document.getElementById('finding_air_trapping').checked) findings.push('Air trapping');
-            
+
             // Nodules
             const noduleTypes = [];
             if (document.getElementById('finding_nodules_centrilobular').checked) noduleTypes.push('centrilobular');
             if (document.getElementById('finding_nodules_perilymphatic').checked) noduleTypes.push('perilymphatic');
             if (document.getElementById('finding_nodules_random').checked) noduleTypes.push('random');
             if (noduleTypes.length > 0) findings.push('Nodules (' + noduleTypes.join(', ') + ')');
-            
+
             // Others
             if (document.getElementById('finding_cysts').checked) findings.push('Cysts (non-honeycomb)');
             if (document.getElementById('finding_septal_thick').checked) findings.push('Septal thickening');
@@ -1150,7 +1376,7 @@
             if (document.getElementById('finding_pleural').checked) findings.push('Pleural abnormality');
             if (document.getElementById('finding_emphysema').checked) findings.push('Emphysema');
             if (document.getElementById('finding_pulm_htn').checked) findings.push('Signs of pulmonary hypertension');
-            
+
             return findings.length > 0 ? findings.join(', ') : 'Nenhum achado selecionado';
         }
 
@@ -1163,6 +1389,49 @@
                     return label ? label.textContent : cb.value;
                 })
                 .join(', ') || 'Não reportado';
+        }
+
+        // Get immunological study data
+        function getImmunologyData() {
+            const anaTiter = document.getElementById('anaTiter').value;
+            const anaPattern = document.getElementById('anaPattern').value;
+
+            // Get selected antibodies
+            const antibodies = [];
+            const abIds = ['ab_fr', 'ab_accp', 'ab_dsdna', 'ab_ssa', 'ab_ssb', 'ab_centromero',
+                          'ab_scl70', 'ab_rnp', 'ab_thto', 'ab_ro52', 'ab_mda5', 'ab_jo1', 'ab_pr3', 'ab_mpo'];
+            const abNames = ['Fator reumatóide', 'ACCP', 'Anti-dsDNA', 'Anti-SSa', 'Anti-SSb', 'Anti-centrómero',
+                            'Anti-Scl70/topoisomerase', 'Anti-RNP', 'Anti-Th/To', 'Anti-Ro52', 'Anti-MDA5', 'Anti-Jo1', 'Anti-PR3', 'Anti-MPO'];
+
+            abIds.forEach((id, index) => {
+                if (document.getElementById(id).checked) {
+                    antibodies.push(abNames[index]);
+                }
+            });
+
+            const abOther = document.getElementById('abOther').value;
+            if (abOther) {
+                antibodies.push(abOther);
+            }
+
+            // Build the immunology section text
+            let immunoText = '';
+
+            if (anaTiter || anaPattern || antibodies.length > 0) {
+                immunoText = '\nESTUDO IMUNOLÓGICO\n─────────────────────────────────────────────────────────────\n';
+
+                if (anaTiter) {
+                    immunoText += `ANA Título: ${anaTiter}\n`;
+                }
+                if (anaPattern) {
+                    immunoText += `ANA Padrão: ${anaPattern}\n`;
+                }
+                if (antibodies.length > 0) {
+                    immunoText += `Anticorpos Positivos: ${antibodies.join(', ')}\n`;
+                }
+            }
+
+            return immunoText;
         }
 
         function generateReport() {
@@ -1192,11 +1461,19 @@
             }
 
             const mdmTeam = document.getElementById('mdmTeam').value || 'Não especificado';
+            const referringPhysician = document.getElementById('referringPhysician').value || 'Não especificado';
+
+            // Get immunology data
+            const immunologySection = getImmunologyData();
 
             let report = `═══════════════════════════════════════════════════════════════
                 MDM - DOENÇAS INTERSTICIAIS DO PULMÃO
                 REUNIÃO MULTIDISCIPLINAR
 ═══════════════════════════════════════════════════════════════
+
+MÉDICO ASSISTENTE
+─────────────────────────────────────────────────────────────
+${referringPhysician}
 
 EQUIPA MDM PRESENTE
 ─────────────────────────────────────────────────────────────
@@ -1261,8 +1538,7 @@ Padrão Ventilatório: ${document.getElementById('ventilationPattern').value || 
 INVESTIGAÇÃO LABORATORIAL
 ─────────────────────────────────────────────────────────────
 Marcadores de Atividade: ${labMarkers}
-Serologias Autoimunes: ${document.getElementById('serology').value || 'Não realizada'}
-
+${immunologySection}
 BAL (Bronchoalveolar Lavage):
 ${document.getElementById('bal').value || 'Não realizado'}
 
@@ -1299,7 +1575,7 @@ Classificação baseada em: ATS/ERS/JRS/ALAT Clinical Practice Guideline 2018
 
         async function copyToClipboard() {
             const reportText = document.getElementById('reportOutput').textContent;
-            
+
             if (reportText.includes('O relatório aparecerá aqui')) {
                 alert('Por favor, gere o relatório primeiro!');
                 return;
@@ -1339,6 +1615,10 @@ Classificação baseada em: ATS/ERS/JRS/ALAT Clinical Practice Guideline 2018
                 document.querySelectorAll('.click-zone').forEach(el => {
                     el.classList.remove('active');
                 });
+                document.querySelectorAll('.ana-titer-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.getElementById('anaTiter').value = '';
                 selectedZones.clear();
                 updateSelectedZones();
                 document.getElementById('reportOutput').innerHTML = '<span class="report-empty">O relatório aparecerá aqui após clicar em "Gerar Relatório"</span>';
@@ -1346,7 +1626,10 @@ Classificação baseada em: ATS/ERS/JRS/ALAT Clinical Practice Guideline 2018
                 document.getElementById('statusBadge').textContent = 'Rascunho';
                 document.getElementById('priorDateGroup').style.display = 'none';
                 document.getElementById('uipHelpText').style.display = 'none';
-                localStorage.removeItem('mdmFormData');
+                // Collapse the immunology panel
+                document.querySelector('.collapsible-header').classList.remove('active');
+                document.getElementById('immunologyPanel').classList.remove('active');
+                localStorage.removeItem('mdmFormDataV3');
                 showCopyFeedback('✓ Formulário limpo!');
             }
         }
