@@ -680,6 +680,85 @@
                     </div>
                 </div>
 
+                <!-- CTD-ILD Assessment - V3 ITERATION UPDATE based on ILD learning guide research -->
+                <div class="section" style="margin-top: 20px; background: linear-gradient(135deg, rgba(168, 75, 47, 0.03), rgba(168, 75, 47, 0.08)); border-left: 4px solid var(--color-warning);">
+                    <h2><span class="section-icon">🔗</span>Avaliação CTD-ILD</h2>
+                    <p style="font-size: 11px; color: #666; margin: 0 0 15px 0; padding: 8px; background: rgba(255,255,255,0.7); border-radius: 4px;">
+                        📚 <strong>Nota:</strong> CTD-ILD representa 20-30% de todos os casos de DPI. Esta secção baseia-se nos critérios IPAF 2015 (ERS/ATS) e guidelines ATS/ERS 2022.
+                    </p>
+
+                    <div class="form-group">
+                        <label><strong>Diagnóstico CTD Conhecido</strong></label>
+                        <select id="ctdDiagnosis">
+                            <option value="">Nenhum / Não avaliado</option>
+                            <option value="Esclerose Sistémica (SSc)">Esclerose Sistémica (SSc)</option>
+                            <option value="Artrite Reumatóide (AR)">Artrite Reumatóide (AR)</option>
+                            <option value="Síndrome de Sjögren">Síndrome de Sjögren</option>
+                            <option value="Polimiosite/Dermatomiosite (PM/DM)">Polimiosite/Dermatomiosite (PM/DM)</option>
+                            <option value="Síndrome Antissintetase">Síndrome Antissintetase</option>
+                            <option value="Lúpus Eritematoso Sistémico (LES)">Lúpus Eritematoso Sistémico (LES)</option>
+                            <option value="Doença Mista do Tecido Conjuntivo (DMTC)">Doença Mista do Tecido Conjuntivo (DMTC)</option>
+                            <option value="Vasculite ANCA+">Vasculite ANCA+</option>
+                            <option value="Outra CTD">Outra CTD (especificar em comentário)</option>
+                        </select>
+                    </div>
+
+                    <!-- Clinical Features - IPAF Clinical Domain -->
+                    <div class="form-group">
+                        <label><strong>Características Clínicas CTD</strong> <span style="font-size: 10px; color: #888;">(Domínio Clínico IPAF)</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ctd_raynaud" onchange="updateForm(); checkIPAF()">
+                                <label for="ctd_raynaud" style="margin: 0; cursor: pointer;">Fenómeno de Raynaud</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ctd_mechanic_hands" onchange="updateForm(); checkIPAF()">
+                                <label for="ctd_mechanic_hands" style="margin: 0; cursor: pointer;">Mãos de mecânico</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ctd_arthritis" onchange="updateForm(); checkIPAF()">
+                                <label for="ctd_arthritis" style="margin: 0; cursor: pointer;">Artrite inflamatória</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ctd_sicca" onchange="updateForm(); checkIPAF()">
+                                <label for="ctd_sicca" style="margin: 0; cursor: pointer;">Síndrome sicca (olhos/boca secos)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ctd_dysphagia" onchange="updateForm(); checkIPAF()">
+                                <label for="ctd_dysphagia" style="margin: 0; cursor: pointer;">Disfagia</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ctd_skin" onchange="updateForm(); checkIPAF()">
+                                <label for="ctd_skin" style="margin: 0; cursor: pointer;">Alterações cutâneas (esclerodactilia, heliotropo, Gottron)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ctd_myositis" onchange="updateForm(); checkIPAF()">
+                                <label for="ctd_myositis" style="margin: 0; cursor: pointer;">Fraqueza muscular / miosite</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ctd_digital_ulcers" onchange="updateForm(); checkIPAF()">
+                                <label for="ctd_digital_ulcers" style="margin: 0; cursor: pointer;">Úlceras digitais</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- IPAF Alert Box -->
+                    <div id="ipafAlert" style="display: none; margin-top: 15px; padding: 12px; background: rgba(33, 128, 137, 0.1); border: 1px solid var(--color-primary); border-radius: 6px;">
+                        <div style="font-weight: 600; color: var(--color-primary); font-size: 13px;">
+                            ⚠️ CONSIDERAR CRITÉRIOS IPAF
+                        </div>
+                        <div style="font-size: 11px; color: #444; margin-top: 6px;">
+                            Paciente apresenta características clínicas sugestivas de doença autoimune sem diagnóstico CTD definido.
+                            <br>Considerar avaliação para <strong>IPAF</strong> (Interstitial Pneumonia with Autoimmune Features) - necessita features de ≥2 domínios (clínico, serológico, morfológico).
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label>Comentário CTD-ILD</label>
+                        <textarea id="ctdComment" placeholder="Observações adicionais sobre história autoimune, avaliação reumatológica prévia, etc."></textarea>
+                    </div>
+                </div>
+
                 <!-- Provas Funcionais -->
                 <div class="section" style="margin-top: 20px;">
                     <h2><span class="section-icon">📊</span>Provas Funcionais (PFT)</h2>
@@ -1044,6 +1123,12 @@
                                 <input type="checkbox" id="finding_pulm_htn" onchange="updateForm()">
                                 <label for="finding_pulm_htn" style="margin: 0; cursor: pointer;">Signs of pulm. hypertension</label>
                             </div>
+                            <div class="checkbox-item" style="background: rgba(168, 75, 47, 0.08); border-color: var(--color-warning);">
+                                <input type="checkbox" id="finding_esophageal_dilation" onchange="updateForm()">
+                                <label for="finding_esophageal_dilation" style="margin: 0; cursor: pointer; color: var(--color-warning);">
+                                    <strong>Esophageal dilation (>10mm)</strong> 🔗 CTD
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -1322,6 +1407,81 @@
             }
         }
 
+        // CTD-ILD Assessment Functions (V3 Iteration Update)
+        function checkIPAF() {
+            const ctdDiagnosis = document.getElementById('ctdDiagnosis').value;
+            const alertBox = document.getElementById('ipafAlert');
+
+            // Count clinical features checked
+            const clinicalFeatures = [
+                'ctd_raynaud', 'ctd_mechanic_hands', 'ctd_arthritis', 'ctd_sicca',
+                'ctd_dysphagia', 'ctd_skin', 'ctd_myositis', 'ctd_digital_ulcers'
+            ];
+            const clinicalCount = clinicalFeatures.filter(id => document.getElementById(id).checked).length;
+
+            // Show IPAF alert if clinical features present but no CTD diagnosis
+            if (clinicalCount >= 1 && !ctdDiagnosis) {
+                alertBox.style.display = 'block';
+            } else {
+                alertBox.style.display = 'none';
+            }
+        }
+
+        function getCTDData() {
+            const ctdDiagnosis = document.getElementById('ctdDiagnosis').value;
+            const ctdComment = document.getElementById('ctdComment').value;
+
+            // Get clinical features
+            const clinicalFeatures = [];
+            const featureIds = [
+                { id: 'ctd_raynaud', name: 'Fenómeno de Raynaud' },
+                { id: 'ctd_mechanic_hands', name: 'Mãos de mecânico' },
+                { id: 'ctd_arthritis', name: 'Artrite inflamatória' },
+                { id: 'ctd_sicca', name: 'Síndrome sicca' },
+                { id: 'ctd_dysphagia', name: 'Disfagia' },
+                { id: 'ctd_skin', name: 'Alterações cutâneas' },
+                { id: 'ctd_myositis', name: 'Fraqueza muscular/miosite' },
+                { id: 'ctd_digital_ulcers', name: 'Úlceras digitais' }
+            ];
+
+            featureIds.forEach(feature => {
+                if (document.getElementById(feature.id).checked) {
+                    clinicalFeatures.push(feature.name);
+                }
+            });
+
+            // Build CTD section text
+            let ctdText = '';
+
+            if (ctdDiagnosis || clinicalFeatures.length > 0 || ctdComment) {
+                ctdText = '\nAVALIAÇÃO CTD-ILD\n─────────────────────────────────────────────────────────────\n';
+
+                if (ctdDiagnosis) {
+                    ctdText += `Diagnóstico CTD: ${ctdDiagnosis}\n`;
+                } else {
+                    ctdText += 'Diagnóstico CTD: Sem diagnóstico CTD conhecido\n';
+                }
+
+                if (clinicalFeatures.length > 0) {
+                    ctdText += `Características Clínicas: ${clinicalFeatures.join(', ')}\n`;
+
+                    // IPAF consideration
+                    if (!ctdDiagnosis) {
+                        ctdText += '\n⚠️ NOTA IPAF: Paciente apresenta características clínicas autoimunes sem diagnóstico CTD definido.\n';
+                        ctdText += '   Considerar avaliação para IPAF (Interstitial Pneumonia with Autoimmune Features).\n';
+                    }
+                } else {
+                    ctdText += 'Características Clínicas: Sem características CTD identificadas\n';
+                }
+
+                if (ctdComment) {
+                    ctdText += `\nComentário CTD: ${ctdComment}\n`;
+                }
+            }
+
+            return ctdText;
+        }
+
         function updateUIPHelp() {
             const classification = document.getElementById('uipClassification').value;
             const helpDiv = document.getElementById('uipHelpText');
@@ -1376,6 +1536,7 @@
             if (document.getElementById('finding_pleural').checked) findings.push('Pleural abnormality');
             if (document.getElementById('finding_emphysema').checked) findings.push('Emphysema');
             if (document.getElementById('finding_pulm_htn').checked) findings.push('Signs of pulmonary hypertension');
+            if (document.getElementById('finding_esophageal_dilation').checked) findings.push('Esophageal dilation (>10mm) ⚠️ CTD marker');
 
             return findings.length > 0 ? findings.join(', ') : 'Nenhum achado selecionado';
         }
@@ -1466,6 +1627,9 @@
             // Get immunology data
             const immunologySection = getImmunologyData();
 
+            // Get CTD-ILD data (V3 iteration update)
+            const ctdSection = getCTDData();
+
             let report = `═══════════════════════════════════════════════════════════════
                 MDM - DOENÇAS INTERSTICIAIS DO PULMÃO
                 REUNIÃO MULTIDISCIPLINAR
@@ -1501,7 +1665,7 @@ ${document.getElementById('medicationHistory').value || 'Sem medicações releva
 
 Comorbilidades:
 ${document.getElementById('comorbidities').value || 'Sem comorbilidades documentadas'}
-
+${ctdSection}
 AVALIAÇÃO RADIOLÓGICA - HRCT
 ─────────────────────────────────────────────────────────────
 Data do Exame: ${document.getElementById('hrctDate').value || 'N/A'}
