@@ -854,11 +854,11 @@
 
             <!-- SECÇÃO DIREITA - RADIOLOGIA -->
             <div>
-                <!-- HRCT - Classificação Padrão (ATS/ERS 2018) -->
+                <!-- HRCT - Classificação Padrão (ATS/ERS 2022) -->
                 <div class="section section-radiology">
                     <h2><span class="section-icon">🩻</span>HRCT - Avaliação Radiológica</h2>
                     <div class="guideline-ref">
-                        📚 Baseado em: ATS/ERS/JRS/ALAT 2018 Guidelines & Fleischner Society
+                        📚 Baseado em: ATS/ERS/JRS/ALAT 2022 Guidelines (IPF/PPF) & ERS/ATS 2025 Classification
                     </div>
 
                     <!-- Study Quality -->
@@ -907,7 +907,7 @@
                     </div>
 
                     <!-- UIP Pattern Classification -->
-                    <h3>Classificação Padrão UIP (ATS/ERS 2018)</h3>
+                    <h3>Classificação Padrão UIP (ATS/ERS 2022)</h3>
                     <div class="info-box">
                         Classificação obrigatória de 4 níveis para contexto clínico de suspeita de FPI
                     </div>
@@ -1509,7 +1509,7 @@ Qualidade Técnica: ${document.getElementById('hrctQuality').value || 'N/A'}
 Imagens em Expiração: ${document.getElementById('hrctExpiratory').value || 'N/A'}
 Comparação: ${comparisonText}
 
-CLASSIFICAÇÃO UIP (ATS/ERS 2018): ${document.getElementById('uipClassification').value || 'Não classificado'}
+CLASSIFICAÇÃO UIP (ATS/ERS 2022): ${document.getElementById('uipClassification').value || 'Não classificado'}
 Padrão Imagiológico Principal: ${document.getElementById('hrctPattern').value || 'Não especificado'}
 
 Achados HRCT:
@@ -1567,7 +1567,7 @@ ${document.getElementById('nextSteps').value || 'A definir conforme evolução c
 
 ═══════════════════════════════════════════════════════════════
 Relatório gerado em: ${new Date().toLocaleString('pt-PT')}
-Classificação baseada em: ATS/ERS/JRS/ALAT Clinical Practice Guideline 2018
+Classificação baseada em: ATS/ERS/JRS/ALAT 2022 Guidelines & ERS/ATS 2025 Classification
 ═══════════════════════════════════════════════════════════════`;
 
             return report;
